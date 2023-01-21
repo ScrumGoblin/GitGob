@@ -3,11 +3,17 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+const userController = require('./controllers/UserController');
+
 app.use(express.json());
 app.use(express.urlencoded());
 
 //Serve static files 
 // app.use(express.static(path.resolve(__dirname, '../build')));
+
+app.get('/getdata', userController.getProject, (req, res) => {
+  return res.send('It worked');
+})
 
 //Global error handler
 app.use((err, req, res, next) => {
