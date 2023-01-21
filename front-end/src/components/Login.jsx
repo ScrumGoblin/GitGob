@@ -1,10 +1,12 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 
 
 
 function Login () {
+
+    let navigate = useNavigate();
 
     const [state, setState] = useState({
         username: '',
@@ -17,6 +19,12 @@ function Login () {
         setState(newState);
     }
 
+    function goToProjectsPage() {
+    
+        let path = '/projects';
+        navigate(path);
+    }
+
     return (
         <div className='pageContainer'>
             <div className='loginContainer'>
@@ -26,17 +34,17 @@ function Login () {
                     <input type='text' onChange={(e) => updateUsername(e.target.value)}/>
                 </div>
                 <div>
-                    <label className='loginLabel'>Passowrd  </label>
+                    <label className='loginLabel'>Password  </label>
                     <input type='text'/>
                 </div>
-                <button>Submit</button>
+                <button onClick={()=>{goToProjectsPage()}}>Submit</button>
                 <h4>Signup</h4>
                 <div>
                     <label className='loginLabel'>Username  </label>
                     <input type='text'/>
                 </div>
                 <div>
-                <label className='loginLabel'>Passowrd  </label>
+                <label className='loginLabel'>Password  </label>
                 <input type='text'/>
                 </div>
                 <button>Submit</button>
