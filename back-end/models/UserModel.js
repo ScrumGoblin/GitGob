@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   //Project is an array containing the name of all the repos
   projects: {
     type: [String],
-    // required: true
+    required: true
   }
 }); 
 const User = mongoose.model('user', userSchema)
