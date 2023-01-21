@@ -5,7 +5,7 @@ import PullReq from './Pullreq';
 function ProjectEntry (/*PROPS GOES HERE*/) {
     const fakeProps = {
         isOpen: true,
-        openedAt: 8,
+        openedAt: 5,
         today: 9,
         comment: 'This is a fake comment'
     }

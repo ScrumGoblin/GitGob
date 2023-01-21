@@ -2,14 +2,28 @@ import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
+
+
 function Login () {
+
+    const [state, setState] = useState({
+        username: '',
+        password: '',
+    })
+    
+    function updateUsername (username) {
+        let newState = Object.assign({}, state);
+        newState.username = username;
+        setState(newState);
+    }
+
     return (
         <div className='pageContainer'>
             <div className='loginContainer'>
                 <h4>Login</h4>
                 <div>
                     <label className='loginLabel'>Username  </label>
-                    <input type='text'/>
+                    <input type='text' onChange={(e) => updateUsername(e.target.value)}/>
                 </div>
                 <div>
                     <label className='loginLabel'>Passowrd  </label>
