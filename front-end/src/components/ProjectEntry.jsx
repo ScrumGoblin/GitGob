@@ -2,24 +2,26 @@ import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import PullReq from './Pullreq';
 
-function ProjectEntry (/*PROPS GOES HERE*/) {
-    const fakeProps = {
-        isOpen: true,
-        openedAt: 5,
-        today: 9,
-        comment: 'This is a fake comment'
-    }
-    const fakeReqData = []
-    fakeReqData.push(fakeProps)
+function ProjectEntry (props) {
 
     const reqs = [];
-    
+    const [userData, setData] = useState();
+    useEffect(() => {
+		fetch('http://localhost:3001/getData', {
+      method: 'POST',
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: props.username })
+    })
+    .then(()=>{
+        
+    })
+        }, []);
 
-    for (let i=0; i<fakeReqData.length; i++){
-        console.log(fakeReqData[i])
-        if (fakeReqData[i].isOpen === true){
-            reqs.push(<PullReq data={fakeReqData[i]}/>)
-        }
+    for (let i=0; i<props.data.length; i++){
+        reqs.push(<PullReq data={props.data[i]}/>)
     }
     return (
         <div className="projectEntry">
