@@ -1,16 +1,23 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import ProjectEntry from './ProjectEntry';
+import { useNavigate } from 'react-router-dom';
+
 
 function Projects () {
 
     //fetch users project info from the database/github
-
+    let navigate = useNavigate();
+    const routeChange = () =>{ 
+        let path = `/add-project`; 
+        navigate(path);
+      }
     
 
     return (
         <div className="pageContainer">
             <ProjectEntry/>
+            <button className='addProjectButton' onClick={()=>routeChange()}>Add Project</button>
         </div>
     )
 }
