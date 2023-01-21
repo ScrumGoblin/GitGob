@@ -5,10 +5,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: {
-    type: String
-  }, 
-  //name of all the repos
+  //Project is an array containing the name of all the repos
   projects: {
     type: [String],
     required: true
