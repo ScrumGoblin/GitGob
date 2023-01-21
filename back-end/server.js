@@ -11,7 +11,11 @@ app.use(express.urlencoded());
 //Serve static files 
 // app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.post('/', userController.createUser, (req, res) => {
+app.post('/create-user', userController.createUser, (req, res) => {
+  return res.send(res.locals.newUser);
+})
+
+app.post('/login', userController.validateUser, (req, res) => {
   return res.send(res.locals.newUser);
 })
 

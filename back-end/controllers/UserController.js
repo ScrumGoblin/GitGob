@@ -50,5 +50,16 @@ userController.createUser = (req,res,next) => {
     })
     .catch(err => next(err));
 }
+
+userController.validateUser = (req, res, next) => {
+    const {username} = req.body;
+    User.find({username: username})
+        .then((data) => {
+            if (data.length === 1) res.locals.loggedIn = true;
+            return next();
+        })
+        .catch(err => next(err));
+}
+
 module.exports = userController;
 

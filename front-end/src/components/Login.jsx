@@ -20,7 +20,7 @@ function Login () {
     }
 
     function goToProjectsPage() {
-    
+        fetch('http://localhost:3000')
         let path = '/projects';
         navigate(path);
     }
