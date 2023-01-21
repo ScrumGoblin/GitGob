@@ -11,7 +11,15 @@ app.use(express.urlencoded());
 //Serve static files 
 // app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.get('/getdata', userController.getProject, (req, res) => {
+app.post('/getdata', userController.getProject, (req, res) => {
+  return res.send('It worked').json(res.locals.data);
+})
+
+app.post('/getprojects', (req, res) => {
+  return res.send('It worked')
+})
+
+app.post('/addproject', (req, res) => {
   return res.send('It worked');
 })
 
