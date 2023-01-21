@@ -34,7 +34,12 @@ function Login() {
         </div>
         <button
           onClick={() => {
-            fetch('/api/').then((res) => res.json());
+            fetch('/api/', {
+              headers: {
+                'Content-Type': 'text/plain',
+              },
+              mode: 'no-cors',
+            });
           }}
         >
           Submit

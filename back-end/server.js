@@ -7,6 +7,16 @@ const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+    'mode: no-cors',
+  );
+  next();
+});
+
 const client_id = '80b2e3ee86c7eb7b1145';
 const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
 const redirectURI = 'http://localhost:8080/oauth-callback/code?';
@@ -19,8 +29,8 @@ const redirectURI = 'http://localhost:8080/oauth-callback/code?';
 //   );
 // });
 
-app.get('/api/', (req, res) => {
-  res.redirect(`https://github.com`);
+app.get('/api/', (req, res, next) => {
+  return res.redirect('https://github.com/');
 });
 
 //Stretch Goals: (1)access token should be stored in a database, (2)utilize redirect_uri and scope for security check
