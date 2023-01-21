@@ -6,8 +6,42 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded());
 
-//Serve static files 
-// app.use(express.static(path.resolve(__dirname, '../build')));
+const client_id = '80b2e3ee86c7eb7b1145';
+const client_secret = '1d55456c9e488c61e44f61314e4743dcb0438135';
+const redirectURI = 'http://localhost:8080/oauth-callback/code?';
+
+//redirects to the github authorization site with the client id, redirect_uri, and scope in the parameters 
+//scope is currently set to repo, allowing for read/write access to the user's public and private repo's
+app.get('/api/', (req, res) => {
+  return res.redirect(`https://github.com/login/oauth/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectURI}&scope=repo`); 
+})
+
+//Stretch Goals: (1)access token should be stored in a database, (2)utilize redirect_uri and scope for security check 
+//access token is initialized as null until we receieve the response from Github
+let accessToken = null; 
+
+app.get('/api/oauth-callback/:code', (req, res) => {
+  const body = {
+    client_id,
+    client_secret,
+    code: req.query.code
+  };
+  fetch(`https://github.com/login/oauth/access_token`, {
+    method: 'POST',
+    body, 
+    headers: {
+      "Content-Type": 'application/json',
+      "accept": "application/json",
+    }
+  }).then(res => res.data['access_token'])
+  .then(token => {
+    accessToken = token;
+    res.json({ok : 1})
+  }).catch(err => res.status(500).json({message: err})
+  })
+
+
+  //access_token=gho_16C7e42F292c6912E7710c838347Ae178B4a&scope=repo%2Cgist&token_type=bearer
 
 //Global error handler
 app.use((err, req, res, next) => {

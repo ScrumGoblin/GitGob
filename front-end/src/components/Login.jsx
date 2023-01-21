@@ -1,6 +1,7 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { getType } from '@reduxjs/toolkit';
 
 function Login () {
     return (
@@ -25,7 +26,10 @@ function Login () {
                 <label className='loginLabel'>Passowrd  </label>
                 <input type='text'/>
                 </div>
-                <button>Submit</button>
+                <button onClick={() => {
+                    fetch('/api/')
+                    
+                }}>Submit</button>
             </div>
         </div>
     )
