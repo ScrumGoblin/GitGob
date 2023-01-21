@@ -1,4 +1,4 @@
-const db = require('../models/UserModel')
+const User = require('../models/UserModel')
 
 const userController = {}; 
 
@@ -29,12 +29,12 @@ userController.addProject = (req, res, next) => {
 
 userController.createUser = (req,res,next) => {
     const {username} = req.body;
-    const newUser = new User({username}); 
-    newUser.save((err, user) => {
-        if (err) return next('Error in createUser middleware');
-        res.locals.newUser = user; 
+    User.create({username})
+    .then((data) => {
+        res.locals.newUser = data;
         return next();
     })
+    .catch(err => next(err));
 }
 module.exports = userController;
 
