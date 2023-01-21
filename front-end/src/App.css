@@ -52,6 +52,7 @@
 }
 .projectEntry{
     display: flex;
+    justify-content: flex-start;
     flex-direction: column;
     height: auto;
     width: 80%;
