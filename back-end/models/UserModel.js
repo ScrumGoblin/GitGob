@@ -1,4 +1,13 @@
 const mongoose = require('mongoose'); 
+const MONGO_URI = 'mongodb+srv://George:George@cluster0.ge1hywo.mongodb.net/?retryWrites=true&w=majority';
+
+mongoose.connect(MONGO_URI)
+.then((data) => {
+  console.log('connected');
+})
+.catch((err) => {
+  console.log(err);
+})
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -11,6 +20,5 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 }); 
-
 const User = mongoose.model('user', userSchema)
 module.exports = User;
