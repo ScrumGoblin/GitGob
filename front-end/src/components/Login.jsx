@@ -6,7 +6,12 @@ import React, {
   useRef,
   createRef,
 } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import {
+  Outlet,
+  Link,
+  useNavigate,
+  createRoutesFromChildren,
+} from 'react-router-dom';
 
 //https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145&response_type=code&client_secret=ce3830641f6f3a352a28108ac94b620269a433e0
 
@@ -43,26 +48,31 @@ function Login() {
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     console.log('this is the code param');
-
-    if (codeParams && localStorage.getItem('accessToken') === null) {
-      console.log('conditional hits');
-      async function getAccessToken() {
-        console.log('inGetAccess');
-        console.log('https://localhost:8080/getAccessToken?code=' + codeParams);
-        const token = await fetch(
-          'https://localhost:8080/getAccessToken?code=' + codeParams,
-        );
-        console.log(token);
-        console.log('after token');
-        const data = await token.json();
-        console.log(data);
-        if (data.access_token) {
-          localStorage.setItem('accessToken', data.access_token);
-          setRender(!render);
+    try {
+      if (codeParams && localStorage.getItem('accessToken') === null) {
+        console.log('conditional hits');
+        async function getAccessToken() {
+          console.log('inGetAccess');
+          console.log(
+            'http://localhost:8080/getAccessToken?code=' + codeParams,
+          );
+          const token = await fetch(
+            'http://localhost:8080/getAccessToken?code=' + codeParams,
+          );
+          console.log(token);
+          console.log('after token');
+          const data = await token.json();
+          console.log(data);
+          if (data.access_token) {
+            localStorage.setItem('accessToken', data.access_token);
+            setRender(!render);
+          }
+          res.json(data);
         }
-        res.json(data);
+        getAccessToken();
       }
-      getAccessToken();
+    } catch (e) {
+      return next(e);
     }
   }, []);
 

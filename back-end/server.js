@@ -10,7 +10,7 @@ app.use(cors());
 
 const client_id = '80b2e3ee86c7eb7b1145';
 const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
-const redirectURI = 'http://localhost:8080/oauth-callback/code?';
+const redirectURI = 'http://localhost:3000/';
 
 app.get('/getAccessToken', async (req, res) => {
   console.log(
@@ -19,11 +19,14 @@ app.get('/getAccessToken', async (req, res) => {
   const params =
     '?client_id=' +
     client_id +
-    'client_secret=' +
+    '&client_secret=' +
     client_secret +
     '&code=' +
-    req.query.code;
+    req.query.code +
+    '&redirect_uri=' +
+    redirectURI;
 
+  console.log('https://github.com/login/oauth/access_token' + params);
   const token = await fetch(
     'https://github.com/login/oauth/access_token' + params,
     {
@@ -33,8 +36,11 @@ app.get('/getAccessToken', async (req, res) => {
       },
     },
   );
+  console.log('BEFORE TOKEN LOG');
   console.log(token);
-  res.status(200).json(token);
+  const parsed = await token.json();
+  console.log('access_token' + parsed.access_token);
+  res.status(200).json(parsed);
 });
 
 app.get('/getUserData', async (req, res) => {
