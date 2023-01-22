@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
-import PullReq from './Pullreq';
+
 
 function ProjectEntry (props) {
 

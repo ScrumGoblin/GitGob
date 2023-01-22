@@ -2,8 +2,6 @@ import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 
-
-
 function Login () {
 
     let navigate = useNavigate();
