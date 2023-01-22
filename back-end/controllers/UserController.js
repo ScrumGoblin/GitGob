@@ -45,13 +45,18 @@ userController.addProject = (req, res, next) => {
 }
 
 userController.createUser = (req,res,next) => {
+    console.log('gothere')
     const {username} = req.body;
+    console.log(username)
     User.create({username: username})
     .then((data) => {
+        console.log(data)
         res.locals.success = true;
         return next();
     })
-    .catch(err => next(err));
+    .catch(err => {
+        console.log('err creating')
+        next(err)});
 }
 
 userController.validateUser = (req, res, next) => {
