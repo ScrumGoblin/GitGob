@@ -5,24 +5,30 @@ import PullReq from './Pullreq';
 function ProjectEntry (props) {
 
     const reqs = [];
-    const [userData, setData] = useState();
+
+    const [userData, setData] = useState([]);
+
     useEffect(() => {
-		fetch('http://localhost:3001/getData', {
+		fetch('http://localhost:3088/getData', {
       method: 'POST',
       headers: {
         'Accept': '*/*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: props.username })
+      body: JSON.stringify({ username: props.username , repo: props.repo })
     })
-    .then(()=>{
-        
+    .then((data)=> data.json())
+    .then((data) => {
+        console.log(data)
+        // let newData = Object.assign({}, userData)
+        // newData.projects = data.projects
+        // setData(newData)
     })
         }, []);
 
-    for (let i=0; i<props.data.length; i++){
-        reqs.push(<PullReq data={props.data[i]}/>)
-    }
+    // for (let i=0; i<props.data.length; i++){
+    //     reqs.push(<PullReq data={props.data[i]}/>)
+    // }
     return (
         <div className="projectEntry">
             <h3>Project Name Placeholder</h3>

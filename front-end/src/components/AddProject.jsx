@@ -1,12 +1,22 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
+import { route } from '../../../back-end/server';
 
 function AddProject () {
 
     const [project, setProject] = useState({
         name: '',
     });
+
+    const location = useLocation();
+
+    let navigate = useNavigate();
+
+    const routeChange = () =>{ 
+        let path = `/projects`; 
+        navigate(path, {state: {username: state.username}});
+      }
 
     function updateName(name){
         let newState = Object.assign({}, project);
@@ -15,10 +25,19 @@ function AddProject () {
     }
 
     function submitProject(name){
-        const body = {
-            name: name,
-        }
-        console.log(body) //placeholder for fetch/post
+        fetch('http://localhost:3088/addproject', {
+        method: 'POST',
+        headers: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: location.state.username, repo: project.name })
+        })
+        .then((data) => data.json())
+        .then((data) => {
+            if (data.success === true) routeChange()
+        })
+        .catch((err) => alert('There was an error adding that repository'))
     }
 
     return (

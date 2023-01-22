@@ -53,6 +53,7 @@
 .projectEntry{
     display: flex;
     justify-content: flex-start;
+    overflow-y: scroll;
     flex-direction: column;
     height: auto;
     width: 80%;

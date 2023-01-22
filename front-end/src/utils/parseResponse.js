@@ -1,7 +1,5 @@
 export function responseParser (responseArray){
     const output = [];
-    console.log(responseArray.length)
-    console.log(Object.keys(responseArray[0]))
     for (let i=0; i<responseArray.length; i++){
         const objToAdd = {};
         objToAdd.puller = responseArray[i]["user"]["login"]
