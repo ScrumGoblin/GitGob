@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   //Project is an array containing the name of all the repos
   projects: {
     type: [String],
+    default: [],
     required: true
   }
 }); 

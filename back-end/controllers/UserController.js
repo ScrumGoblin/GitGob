@@ -21,7 +21,6 @@ userController.getProject = (req, res, next) => {
     fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`)
     .then(data => data.json())
     .then(data => {
-        console.log(data)
         res.locals.data = data;
         return next();
     })
@@ -31,8 +30,12 @@ userController.getProject = (req, res, next) => {
 
 userController.getProjectsList = (req, res, next) => {
     const { username } = req.body;
-    // TODO get projects listed in database from user
-    // store projects into array
+    User.findOne({username: username}) //can get two not sure why
+        .then((data) => {
+            res.locals.projects = data.projects;
+            next();
+        })
+        .catch(err => next(err));
 };
 
 userController.addProject = (req, res, next) => {
@@ -43,9 +46,9 @@ userController.addProject = (req, res, next) => {
 
 userController.createUser = (req,res,next) => {
     const {username} = req.body;
-    User.create({username})
+    User.create({username: username})
     .then((data) => {
-        res.locals.newUser = data;
+        res.locals.success = true;
         return next();
     })
     .catch(err => next(err));
