@@ -92,28 +92,27 @@ function Login () {
 
     return (
         <div className='pageContainer'>
-              <div className='logo'><span>gitgob</span></div>
             <div className='loginContainer'>
-                <div className='loginPageHeader'>
-                  <h4>Login</h4>
+                <h4>Login</h4>
+                <div>
+                    <label className='loginLabel'>Username  </label>
+                    <input type='text' onChange={(e) => updateUsername(e.target.value)}/>
                 </div>
                 <div>
-                    <input className='inputField' type='text' placeholder="Username" onChange={(e) => updateUsername(e.target.value)}/>
+                    <label className='loginLabel'>Password  </label>
+                    <input type='text'/>
+                </div>
+                <button onClick={()=>{goToProjectsPage(state.username)}}>Submit</button>
+                <h4>Signup</h4>
+                <div>
+                    <label className='loginLabel'>Username  </label>
+                    <input type='text' onChange={(e) => updateUsername(e.target.value)}/>
                 </div>
                 <div>
-                    <input className='inputField' placeholder="Password" type='text'/>
+                <label className='loginLabel'>Password  </label>
+                <input type='text'/>
                 </div>
-                <button className='submitButton' onClick={()=>{goToProjectsPage(state.username)}}>Submit</button>
-                <div className='loginPageHeader'>
-                  <h4>Signup</h4>
-                </div>
-                <div>
-                    <input className='inputField' type='text' placeholder="Username" onChange={(e) => updateUsername(e.target.value)}/>
-                </div>
-                <div>
-                    <input className='inputField' placeholder="Password" type='text'/>
-                </div>
-                <button className='submitButton' onClick={()=>createNewUser(state.username)}>Submit</button>
+                <button onClick={()=>createNewUser(state.username)}>Submit</button>
             </div>
         </div>
     )

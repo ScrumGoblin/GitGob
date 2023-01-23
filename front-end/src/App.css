@@ -1,18 +1,12 @@
-body {
-    background-color: #EEE6DE;
-}
-
 .pageContainer{
     display: flex;
     z-index: 0;
     width: 100vw;
     height: 100vh;
-    margin: 70px 0 70px 0;
     align-items: center;
-    justify-content: center;
-    align-self: flex-start;
     flex-direction: column;
-    font-family: Nats, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-y: scroll;
 }
 .addProjectButtonContainer{
     display: flex;
@@ -20,27 +14,23 @@ body {
     width: 80%;
 }
 .addProjectButton{
-    width: 6vw;
-    background: #BE845E;
-    color: white;
-    border-radius: 8px;
+    background-color: white;
     border: none;
-    padding: 0px;
+    border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 6px 0px;
-    font-family: Nats, sans-serif;
-    
+    padding: 1%;
 }
-.addProjectButton:focus, .submitButton:focus{
-    background-color: #A37253;
+.addProjectButton:hover{
+    background-color: rgb(241, 241, 241);
 }
-/* .addProjectInput{
+.addProjectInput{
     background-color: white;
     border: none;
     width: 50%;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 6px 0px;
     padding: 1%;
-} */
+}
 .displayPageContainer{
     display: flex;
     flex-direction: column;
@@ -48,26 +38,24 @@ body {
     height: 100vh;
     align-items: flex-start;
     justify-content: flex-start;
-    font-family: Nats, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .loginContainer{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    background-color: white;
-    height: 50%;
+    justify-content: space-around;
+    height: 70%;
     width: 30%;
     border: none;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
-    padding: 0.1%;
+    padding: 2%;
 }
 .addProjectContainer{
     display: flex;
-    align-items: center;
-    background-color: white;
-    width: 30%;
+    height: 80%;
+    width: 80%;
     border: none;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
@@ -75,7 +63,6 @@ body {
 }
 .addProjectRow{
     display: flex;
-    flex-direction: column;
     width: 100%;
     height: 10%;
     align-items: center;
@@ -86,12 +73,18 @@ body {
     flex-direction: column;
     height: 100%;
 }
-
+.addProjectInputContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.addProjectButton{
+    align-self: flex-start;
+}
 .projectEntry{
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    background-color: white;
     height: auto;
     width: 80%;
     border: none;
@@ -101,16 +94,6 @@ body {
     font-size: 10px;
     margin-top: 2%;
 }
-
-.projectEntry h1{
-    font-size: 35px;
-    margin: 0;
-}
-.projectEntry h2{
-    font-size: 25px;
-    margin: 0;
-}
-
 .loginLabel{
     font-size: 10px;
 }
@@ -128,51 +111,6 @@ body {
     display: flex;
     padding: 2px;
     margin-top: 2px;
-    font-size: 14px;
-}
-
-.submitButton{
-    width: 20vw;
-    height: 3vh;
-    background: #BE845E;
-    color: white;
-    border-radius: 8px;
-    border: none;
-    font-family: Nats, sans-serif;
-}
-
-.inputField, .addProjectInput{
-    width: 20vw;
-    height: 5vh;
-    border-radius: 0.1rem;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    margin: 5px 0 5px 0;
-}
-
-.inputField:focus, .addProjectInput:focus{
-    outline-width: 0;
-}
-
-.loginPageHeader{
-    display: flex;
-    justify-content: flex-start;
-    width: 20vw;
-}
-
-
-h4{
-    font-family: Nats, sans-serif;
-    font-size: 24px;
-    margin: 0px;
-}
-.logo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    font-family: Nats, sans-serif;
-    font-size: 5rem;
-    margin-bottom: 10vh;
 }
 .chartContainer{
     height: 200px;
