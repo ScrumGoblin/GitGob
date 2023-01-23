@@ -72,7 +72,10 @@ function Login() {
     const queryString = window.location.search; //gets us everything after and including '?' in the url (search will look for href property in particular object it's called on...can select an anchor tag for example and use search on it and it will get us the value of its href)
     const urlParams = new URLSearchParams(queryString); //allows us to use 'get' method to select particular param from our query string
     const codeParams = urlParams.get('code');
-    if (document.cookie.includes('accessCheck')) return;
+    if (document.cookie.includes('accessCheck')) {
+      console.log('logged in already ');
+      return;
+    }
     try {
       {
         async function getAccessToken() {
