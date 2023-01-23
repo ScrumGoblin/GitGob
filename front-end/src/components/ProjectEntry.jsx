@@ -31,7 +31,7 @@ function ProjectEntry (props) {
     // }
     return (
         <div className="projectEntry">
-            <h3>Project Name Placeholder</h3>
+            <h3>{props.repo}</h3>
             <h1>CHART CHART CHART</h1>
             {reqs}
             

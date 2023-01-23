@@ -22,6 +22,7 @@ function Projects (props) {
     })
     .then((data)=> data.json())
     .then((data) => {
+        console.log(data)
         let newProjects = Object.assign({}, projects)
         newProjects.projects = data.projects
         setProjects(newProjects)
@@ -32,12 +33,12 @@ function Projects (props) {
     let navigate = useNavigate();
     const routeChange = () =>{ 
         let path = `/add-project`; 
-        navigate(path, {state: {username: state.username}});
+        navigate(path, {state: {username: location.state.username}});
       }
     const dataParsed = responseParser(fakeData);
     
     const projectsList = []
-    console.log(projects.projects.length)
+    
     if (projects.projects.length !== 0){
         for (let i=0; i<projects.projects.length; i++){
             projectsList.push(<ProjectEntry repo={projects.projects[i]} username={location.state.username}/>)

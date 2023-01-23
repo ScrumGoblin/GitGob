@@ -15,7 +15,7 @@ function AddProject () {
 
     const routeChange = () =>{ 
         let path = `/projects`; 
-        navigate(path, {state: {username: state.username}});
+        navigate(path, {state: {username: location.state.username}});
       }
 
     function updateName(name){
@@ -35,9 +35,12 @@ function AddProject () {
         })
         .then((data) => data.json())
         .then((data) => {
-            if (data.success === true) routeChange()
+            console.log(data)
+            if (data.success === true){
+                routeChange();
+            }
         })
-        .catch((err) => alert('There was an error adding that repository'))
+        .catch((err) => console.log(err))
     }
 
     return (
