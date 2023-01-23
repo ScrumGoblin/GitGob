@@ -9,7 +9,7 @@ function PullReq (props) {
     let className;
 
     // if (state === 'closed') className = 'pullReqBlack';
-    if (dateParser(created_at) > 2) className = 'pullReqRed';
+    if (dateParser(created_at) > 2 && state !== 'closed') className = 'pullReqRed';
     else className = 'pullReqBlack'
 
     return (
