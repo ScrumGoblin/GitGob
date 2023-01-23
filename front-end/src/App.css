@@ -132,8 +132,12 @@ body {
 }
 
 .submitButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 20vw;
     height: 3vh;
+    padding: 0px;
     background: #BE845E;
     color: white;
     border-radius: 8px;
