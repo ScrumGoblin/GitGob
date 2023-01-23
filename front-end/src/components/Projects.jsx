@@ -47,8 +47,10 @@ function Projects (props) {
     
     return (
         <div className="pageContainer">
+            <div className="addProjectButtonContainer">
+                <button className='addProjectButton' onClick={()=>routeChange()}>Add Project</button>
+            </div>
             {projectsList}
-            <button className='addProjectButton' onClick={()=>routeChange()}>Add Project</button>
         </div>
     )
 }

@@ -4,9 +4,18 @@ import { Outlet, Link } from 'react-router-dom';
 import { dateParser } from '../utils/parseResponse.js'
 
 function PullReq (props) {
-    const { puller, created_at, closed_at, comment, title, state } = props.data
+    const { puller, created_at, closed_at, comment, title, state, url, made_by } = props.data
+
+    let className;
+
+    if (state === 'closed') className = 'pullReqBlack';
+    else if (dateParser(created_at) > 2) className = 'pullReqRed';
+    else className = 'pullReqYellow'
+
     return (
-        <p className = {(dateParser(created_at) > 2 === true) ? 'pullReqRed' : 'pullReq'}>{`${title} || opened ${dateParser(created_at)} days ago`}</p>
+        <div className="pullReqContainer">
+            <a href={url} className = {className}>{`${title} || opened ${dateParser(created_at)} days ago by ${made_by}`}</a>
+        </div>
     )
 }
 
