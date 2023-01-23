@@ -23,14 +23,12 @@ app.use(cors());
 app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Credentials', true);
-  console.log('access token still works');
   res.status(200).json(res.locals.token);
 });
 
 app.get('/readCookie', (req, res) => {
   console.log(req.cookies.accessToken);
   console.log('We are in the cookie test');
-  console.log('after res headers cookies');
   res.json({ cookiesPls: 'ty' });
 });
 

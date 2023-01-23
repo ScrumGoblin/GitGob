@@ -45,8 +45,9 @@ userController.getAccessToken = async (req, res, next) => {
     console.log('this is res locals token ' + res.locals.token);
     res.cookie('accessToken', res.locals.token, {
       httpOnly: true,
+      maxAge: 7 * 60 * 60 * 1000,
     });
-    res.cookie('veryImportant', 'dont delete', {
+    res.cookie('accessCheck', 'dont delete', {
       maxAge: 7 * 60 * 60 * 1000,
     });
     return next();
