@@ -26,7 +26,6 @@ app.get('/getAccessToken', async (req, res) => {
     '&redirect_uri=' +
     redirectURI;
 
-  console.log('https://github.com/login/oauth/access_token' + params);
   const token = await fetch(
     'https://github.com/login/oauth/access_token' + params,
     {
@@ -36,13 +35,11 @@ app.get('/getAccessToken', async (req, res) => {
       },
     },
   );
-  console.log('BEFORE TOKEN LOG');
-  console.log(token);
   const parsed = await token.json();
-  console.log('access_token' + parsed.access_token);
   res.status(200).json(parsed);
 });
 
+//Boilerplate to actually start querying
 app.get('/getUserData', async (req, res) => {
   req.get('Authorization');
   const userData = await fetch('https://api.github.com/user', {

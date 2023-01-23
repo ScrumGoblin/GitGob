@@ -36,35 +36,30 @@ function Login() {
     navigate(path);
   }
 
+  //directs user to sign in with Github and get us the code for our access token.
   function githubLogin() {
-    console.log('hey');
-    window.location.assign(
-      'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145',
-    );
+    window.location.href =
+      'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145';
   }
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    const queryString = window.location.search; //gets us everything after and including '?' in the url (search will look for href property in particular object it's called on...can select an anchor tag for example and use search on it and it will get us the value of its href)
+    const urlParams = new URLSearchParams(queryString); //allows us to use 'get' method to select particular param from our query string
     const codeParams = urlParams.get('code');
-    console.log(codeParams);
-    console.log('this is the code param');
+
     try {
       if (codeParams && localStorage.getItem('accessToken') === null) {
-        console.log('conditional hits');
         async function getAccessToken() {
-          console.log('inGetAccess');
-          console.log(
+          //LOCAL HOST USES HTTP, NOT HTTPS
+          //if chrome still gives you issues (because it requires https these days), go to https://stackoverflow.com/questions/52677872/localhost-sent-an-invalid-response-for-my-angular-app
+          //and follow the instructions with 25 upvotes by Gerrie Pretorious
+          const tokenRequest = await fetch(
             'http://localhost:8080/getAccessToken?code=' + codeParams,
           );
-          const token = await fetch(
-            'http://localhost:8080/getAccessToken?code=' + codeParams,
-          );
-          console.log(token);
-          console.log('after token');
-          const data = await token.json();
-          console.log(data);
-          if (data.access_token) {
-            localStorage.setItem('accessToken', data.access_token);
+
+          const tokenBody = await tokenRequest.json();
+
+          if (tokenBody.access_token) {
+            localStorage.setItem('accessToken', tokenBody.access_token);
             setRender(!render);
           }
           res.json(data);
@@ -72,7 +67,7 @@ function Login() {
         getAccessToken();
       }
     } catch (e) {
-      return next(e);
+      return 'Error logging in with GitHub ' + e;
     }
   }, []);
 
