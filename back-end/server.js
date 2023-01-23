@@ -28,9 +28,8 @@ app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
 });
 
 app.get('/readCookie', (req, res) => {
-  console.log(req.cookies);
+  console.log(req.cookies.accessToken);
   console.log('We are in the cookie test');
-  console.log(res);
   console.log('after res headers cookies');
   res.json({ cookiesPls: 'ty' });
 });

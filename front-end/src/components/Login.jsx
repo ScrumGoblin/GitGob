@@ -65,12 +65,14 @@ function Login() {
   }
 
   useEffect(() => {
+    console.log('one');
     const queryString = window.location.search; //gets us everything after and including '?' in the url (search will look for href property in particular object it's called on...can select an anchor tag for example and use search on it and it will get us the value of its href)
     const urlParams = new URLSearchParams(queryString); //allows us to use 'get' method to select particular param from our query string
     const codeParams = urlParams.get('code');
-
+    console.log(codeParams);
+    if (document.cookie.includes('veryImportant')) return;
     try {
-      if (codeParams) {
+      {
         async function getAccessToken() {
           //LOCAL HOST USES HTTP, NOT HTTPS
           //if chrome still gives you issues (because it requires https these days), go to https://stackoverflow.com/questions/52677872/localhost-sent-an-invalid-response-for-my-angular-app
