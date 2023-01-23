@@ -103,7 +103,7 @@ function Login () {
                 <div>
                     <input className='inputField' placeholder="Password" type='text'/>
                 </div>
-                <button className='submitButton' onClick={()=>createNewUser(state.username)}>Submit</button>
+                <button className='submitButton' onClick={()=>{goToProjectsPage(state.username)}}>Submit</button>
                 <div className='loginPageHeader'>
                   <h4>Signup</h4>
                 </div>
