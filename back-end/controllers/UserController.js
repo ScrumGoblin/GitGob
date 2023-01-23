@@ -105,9 +105,11 @@ userController.getUsername = async (req, res, next) => {
     });
 
     const parsedInfo = await userInfo.json();
-    console.log('this is the parsed info ' + parsedInfo);
     res.locals.username = parsedInfo.login;
-    console.log('this is the login specifically' + parsedInfo.login);
+    console.log(
+      'this is the username in userController getUsername' +
+        res.locals.username,
+    );
     return next();
   } catch (e) {
     return next({ message: { err: 'Error getting username' } });
@@ -116,7 +118,7 @@ userController.getUsername = async (req, res, next) => {
 
 userController.createUser = (req, res, next) => {
   const { username } = req.body;
-  User.create({ username: username })
+  User.create({ username: res.locals.username })
     .then((data) => {
       res.locals.success = true;
       return next();

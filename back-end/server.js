@@ -26,13 +26,18 @@ app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
   res.status(200).json('Successfully logged in with Github');
 });
 
-app.get('/readCookie', userController.getUsername, (req, res) => {
-  res.status(200).json(res.locals.username);
-});
+app.get(
+  '/readCookie',
+  userController.getUsername,
+  userController.createUser,
+  (req, res) => {
+    res.status(200).json({ success: res.locals.success });
+  },
+);
 
-app.post('/create-user', userController.createUser, (req, res) => {
-  return res.json({ success: res.locals.success });
-});
+// app.post('/create-user', userController.createUser, (req, res) => {
+//   return res.json({ success: res.locals.success });
+// });
 
 app.post('/login', userController.validateUser, (req, res) => {
   return res.json({ loggedIn: res.locals.loggedIn });
