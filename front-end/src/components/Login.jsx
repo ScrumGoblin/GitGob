@@ -112,7 +112,7 @@ function Login () {
                 <label className='loginLabel'>Password  </label>
                 <input type='text'/>
                 </div>
-                <button onClick={githubLogin}>Submit</button>
+                <button onClick={()=>createNewUser(state.username)}>Submit</button>
             </div>
         </div>
     )
