@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   projects: {
     type: [String],
     default: [],
-    required: true
+    // required: true
   }
 }); 
 const User = mongoose.model('user', userSchema)

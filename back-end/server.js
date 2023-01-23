@@ -23,7 +23,6 @@ app.post('/create-user', userController.createUser, (req, res) => {
 })
 
 app.post('/login', userController.validateUser, (req, res) => {
-  console.log({isLoggedin: res.locals.loggedIn})
   return res.json({loggedIn: res.locals.loggedIn});
 })
 
@@ -35,8 +34,8 @@ app.post('/getprojects', userController.getProjectsList, (req, res) => {
   return res.json({projects: res.locals.projects})
 })
 
-app.post('/addproject', (req, res) => {
-  return res.send('It worked');
+app.post('/addproject', userController.addProject, (req, res) => {
+  return res.json({success: true});
 })
 
 

@@ -33,29 +33,30 @@ userController.getProjectsList = (req, res, next) => {
     User.findOne({username: username}) //can get two not sure why
         .then((data) => {
             res.locals.projects = data.projects;
+            console.log(res.locals.projects)
             next();
         })
-        .catch(err => next(err));
+        .catch(err => console.log(err));
 };
 
 userController.addProject = (req, res, next) => {
+    console.log('got here')
     const { username, repo } = req.body;
-
-    // TODO update user document in database
+    User.updateOne(
+        { username: username },
+        { $addToSet: { projects: repo}})
+    .then((data) => next())
+    .catch(err => console.log(err))
 }
 
 userController.createUser = (req,res,next) => {
-    console.log('gothere')
     const {username} = req.body;
-    console.log(username)
     User.create({username: username})
     .then((data) => {
-        console.log(data)
         res.locals.success = true;
         return next();
     })
     .catch(err => {
-        console.log('err creating')
         next(err)});
 }
 
