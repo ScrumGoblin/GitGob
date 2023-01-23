@@ -1,22 +1,59 @@
 const db = require('../models/UserModel');
 const client_id = '80b2e3ee86c7eb7b1145';
+const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
+const redirectURI = 'http://localhost:3000/';
 const userController = {};
 
-userController.checkCode = async (req, res, next) => {
+userController.getAccessToken = async (req, res, next) => {
   try {
-    console.log('checkCode fired');
-    const { code } = req.query;
-    const response = await fetch(
-      'https://github.com/login/oauth/access_token/grant_type=code&client_id=80b2e3ee86c7eb7b1145',
-      { method: 'POST', body: code },
+    const params =
+      '?client_id=' +
+      client_id +
+      '&client_secret=' +
+      client_secret +
+      '&code=' +
+      req.query.code +
+      '&redirect_uri=' +
+      redirectURI;
+
+    const token = await fetch(
+      'https://github.com/login/oauth/access_token' + params,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
     );
-    console.log('response', response);
-    const { access_token } = response;
-    res.locals.token = access_token;
-    console.log('access token', access_token);
+
+    const parsedToken = await token.json();
+    res.locals.token = parsedToken;
     return next();
-  } catch {
-    return next(err);
+  } catch (e) {
+    return next({
+      log: 'Error in getAccessToken',
+      message: { err: e },
+    });
+  }
+};
+
+//Boilerplate for querying
+userController.getUserData = async (req, res, next) => {
+  try {
+    req.get('Authorization');
+    const userData = await fetch('https://api.github.com/user', {
+      method: 'GET',
+      headers: {
+        Authorization: req.get('Authorization'),
+      },
+    });
+    res.locals.userData = userData;
+    return next();
+  } catch (e) {
+    return next({
+      log: 'Error in getUserData',
+      message: { err: e },
+    });
   }
 };
 

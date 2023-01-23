@@ -2,54 +2,19 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 8080;
-const userController = require('/Users/kbud93/projects/Goblin/back-end/controllers/UserController.js');
+const userController = require('./controllers/UserController');
 const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
 
-const client_id = '80b2e3ee86c7eb7b1145';
-const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
-const redirectURI = 'http://localhost:3000/';
-
-app.get('/getAccessToken', async (req, res) => {
-  console.log(
-    req.query.code + 'THIS IS THE REQ QUERY CODE IN GET ACCESS TOKEN',
-  );
-  const params =
-    '?client_id=' +
-    client_id +
-    '&client_secret=' +
-    client_secret +
-    '&code=' +
-    req.query.code +
-    '&redirect_uri=' +
-    redirectURI;
-
-  const token = await fetch(
-    'https://github.com/login/oauth/access_token' + params,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-    },
-  );
-  const parsed = await token.json();
-  res.status(200).json(parsed);
+app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
+  res.status(200).json(res.locals.token);
 });
 
 //Boilerplate to actually start querying
-app.get('/getUserData', async (req, res) => {
-  req.get('Authorization');
-  const userData = await fetch('https://api.github.com/user', {
-    method: 'GET',
-    headers: {
-      Authorization: req.get('Authorization'),
-    },
-  });
-  console.log(userData);
-  res.json(userData);
+app.get('/getUserData', userController.getUserData, (req, res) => {
+  res.status(200).json(res.locals.userData);
 });
 //Serve static files
 // app.use(express.static(path.resolve(__dirname, '../build')));
