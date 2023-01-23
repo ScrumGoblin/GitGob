@@ -37,6 +37,8 @@ function ProjectEntry (props) {
         if (dateParser(userData.data[i].created_at) <= 7){
             if (pullsinLast7 === 'fetching') pullsinLast7 = 1;
             else pullsinLast7 += 1;
+        }else{
+            if (pullsinLast7 === 'fetching') pullsinLast7 = 0;
         }
     }
 
@@ -65,7 +67,9 @@ function ProjectEntry (props) {
     return (
         <div className="projectEntry">
             <h1>{props.repo}</h1>
-            {chart}
+            <div className="chartContainer">
+                {chart}
+            </div>
             <h2>{pullsinLast7} pulls in the last week</h2>
             {reqs}
             
