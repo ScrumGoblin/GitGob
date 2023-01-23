@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
-import { responseParser } from '../utils/parseResponse';
+import { responseParser, dateParser } from '../utils/parseResponse';
 import PullReq from './Pullreq.jsx'
 
 function ProjectEntry (props) {
@@ -29,14 +29,23 @@ function ProjectEntry (props) {
         }, []);
 
     const reqs = [];
+    
+    let pullsinLast7 = 'fetching';
 
     for (let i=0; i<userData.data.length; i++){
+        if (dateParser(userData.data[i].created_at) <= 7){
+            if (pullsinLast7 === 'fetching') pullsinLast7 = 1;
+            else pullsinLast7 += 1;
+        }
+    }
+
+    for (let i=userData.data.length-1; i>-1; i--){
         reqs.push(<PullReq data={userData.data[i]}/>)
     }
     return (
         <div className="projectEntry">
-            <h2>{props.repo}</h2>
-            <h1>CHART CHART CHART</h1>
+            <h1>{props.repo}</h1>
+            <h2>{pullsinLast7} pulls in the last week</h2>
             {reqs}
             
         </div>
