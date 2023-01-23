@@ -20,6 +20,7 @@ app.use(cors())
 //Serve static files 
 // app.use(express.static(path.resolve(__dirname, '../build')));
 app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
+  res.setHeader('Set-Cookie', [`accessToken=${res.locals.token}; Http-Only; Max-Age:28800`]);
   res.status(200).json(res.locals.token);
 });
 

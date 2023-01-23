@@ -57,7 +57,7 @@ function Login () {
 
     function githubLogin() {
         window.location.href =
-          'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145';
+          'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145&scope=repo';
       }
 
     useEffect(() => {
@@ -79,7 +79,7 @@ function Login () {
     
               if (tokenBody.access_token) {
                 localStorage.setItem('accessToken', tokenBody.access_token);
-                setRender(!render);
+                // setRender(!render);
               }
               res.json(data);
             }
@@ -103,18 +103,7 @@ function Login () {
                 <div>
                     <input className='inputField' placeholder="Password" type='text'/>
                 </div>
-                <button className='submitButton' onClick={()=>{goToProjectsPage(state.username)}}>Submit</button>
-                <br/>
-                <div className='loginPageHeader'>
-                  <h4>Signup</h4>
-                </div>
-                <div>
-                    <input className='inputField' placeholder="Username" type='text' onChange={(e) => updateUsername(e.target.value)}/>
-                </div>
-                <div>
-                <input className='inputField' placeholder="Password" type='text'/>
-                </div>
-                <button className='submitButton' onClick={githubLogin}>Submit</button>
+                <button className='submitButton' onClick={()=>createNewUser(state.username)}>Submit</button>
             </div>
         </div>
     )

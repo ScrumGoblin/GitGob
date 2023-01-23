@@ -19,43 +19,43 @@ const userController = {
 }; 
 
 userController.getAccessToken = async (req, res, next) => {
-    try {
-      const params =
-        '?client_id=' +
-        client_id +
-        '&client_secret=' +
-        client_secret +
-        '&code=' +
-        req.query.code +
-        '&redirect_uri=' +
-        redirectURI;
-  
-      const token = await fetch(
-        'https://github.com/login/oauth/access_token' + params,
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-          },
+  try {
+    const params =
+      '?client_id=' +
+      client_id +
+      '&client_secret=' +
+      client_secret +
+      '&code=' +
+      req.query.code +
+      '&redirect_uri=' +
+      redirectURI;
+
+    const token = await fetch(
+      'https://github.com/login/oauth/access_token' + params,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
         },
-      );
-  
-      const parsedToken = await token.json();
-      res.locals.token = parsedToken;
-      return next();
-    } catch (e) {
-      return next({
-        log: 'Error in getAccessToken',
-        message: { err: e },
-      });
-    }
-  };
+      },
+    );
+
+    const parsedToken = await token.json();
+    res.locals.token = parsedToken;
+    return next();
+  } catch (e) {
+    return next({
+      log: 'Error in getAccessToken',
+      message: { err: e },
+    });
+  }
+};
 
 userController.getProject = (req, res, next) => {
     const { username, repo } = req.body;
     fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`, {
         headers: {
-            'Authorization': `token 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`
+            'Authorization': `token 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`
           }
     })
     .then(data => data.json())
