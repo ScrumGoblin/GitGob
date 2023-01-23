@@ -55,7 +55,7 @@ userController.getProject = (req, res, next) => {
     const { username, repo } = req.body;
     fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`, {
         headers: {
-            'Authorization': `token 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`
+            'Authorization': `token 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`
           }
     })
     .then(data => data.json())

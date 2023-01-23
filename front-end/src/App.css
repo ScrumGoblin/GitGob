@@ -7,12 +7,12 @@ body {
     z-index: 0;
     width: 100vw;
     height: 100vh;
+    margin: 70px 0 70px 0;
     align-items: center;
     justify-content: center;
     align-self: flex-start;
     flex-direction: column;
     font-family: Nats, sans-serif;
-    overflow-y: scroll;
 }
 .addProjectButtonContainer{
     display: flex;
@@ -101,6 +101,16 @@ body {
     font-size: 10px;
     margin-top: 2%;
 }
+
+.projectEntry h1{
+    font-size: 35px;
+    margin: 0;
+}
+.projectEntry h2{
+    font-size: 25px;
+    margin: 0;
+}
+
 .loginLabel{
     font-size: 10px;
 }
@@ -118,6 +128,7 @@ body {
     display: flex;
     padding: 2px;
     margin-top: 2px;
+    font-size: 14px;
 }
 
 .submitButton{
