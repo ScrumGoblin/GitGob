@@ -41,12 +41,12 @@ userController.getAccessToken = async (req, res, next) => {
     );
 
     const parsedToken = await token.json();
-    res.locals.token = parsedToken.access_token;
-    console.log('this is res locals token ' + res.locals.token);
-    res.cookie('accessToken', res.locals.token, {
+    console.log('this is res locals token ' + parsedToken.access_token);
+    res.cookie('accessToken', parsedToken.access_token, {
       httpOnly: true,
       maxAge: 7 * 60 * 60 * 1000,
     });
+    //defining second cookie to know if http only cookie exists, which tells us user has logged in already
     res.cookie('accessCheck', 'dont delete', {
       maxAge: 7 * 60 * 60 * 1000,
     });
@@ -92,6 +92,26 @@ userController.addProject = (req, res, next) => {
   User.updateOne({ username: username }, { $addToSet: { projects: repo } })
     .then((data) => next())
     .catch((err) => console.log(err));
+};
+
+userController.getUsername = async (req, res, next) => {
+  try {
+    console.log(req.cookies.accessToken);
+    const userInfo = await fetch('https://api.github.com/user', {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${req.cookies.accessToken}`,
+      },
+    });
+
+    const parsedInfo = await userInfo.json();
+    console.log('this is the parsed info ' + parsedInfo);
+    res.locals.username = parsedInfo.login;
+    console.log('this is the login specifically' + parsedInfo.login);
+    return next();
+  } catch (e) {
+    return next({ message: { err: 'Error getting username' } });
+  }
 };
 
 userController.createUser = (req, res, next) => {

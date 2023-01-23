@@ -23,13 +23,11 @@ app.use(cors());
 app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.status(200).json(res.locals.token);
+  res.status(200).json('Successfully logged in with Github');
 });
 
-app.get('/readCookie', (req, res) => {
-  console.log(req.cookies.accessToken);
-  console.log('We are in the cookie test');
-  res.json({ cookiesPls: 'ty' });
+app.get('/readCookie', userController.getUsername, (req, res) => {
+  res.status(200).json(res.locals.username);
 });
 
 app.post('/create-user', userController.createUser, (req, res) => {
