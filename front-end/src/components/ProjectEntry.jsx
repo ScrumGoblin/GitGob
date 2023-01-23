@@ -8,9 +8,9 @@ function ProjectEntry (props) {
 
     
 
-    const [userData, setData] = useState({data: []});
+    const [userData, setData] = useState({data: []}); //userData is initially set to an empty array
 
-    useEffect(() => {
+    useEffect(() => { //once the component loads this will run to populate userData
 		fetch('http://localhost:3088/getData', {
       method: 'POST',
       headers: {
@@ -42,7 +42,7 @@ function ProjectEntry (props) {
         }
     }
 
-    for (let i=userData.data.length-1; i>-1; i--){
+    for (let i=userData.data.length-1; i>-1; i--){ //initially this will not run, but after the use Effect fetches our user data, the Pull requests will be pushed into reqs and rendered.
         reqs.push(<PullReq data={userData.data[i]}/>)
     }
 

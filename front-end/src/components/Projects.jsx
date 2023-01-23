@@ -7,11 +7,11 @@ import { responseParser, fakeData } from '../utils/parseResponse';
 function Projects (props) {
 
     //fetch users project info from the database/github
-    const [projects, setProjects] = useState({projects: []})
+    const [projects, setProjects] = useState({projects: []}) //sets initial project stat to an empty array
 
-    const location = useLocation();
+    const location = useLocation(); //gives acces to previous page state.username
     
-    useEffect(() => {
+    useEffect(() => { //once component mounts, this will run once to populate the projects
 		fetch('http://localhost:3088/getprojects', {
       method: 'POST',
       headers: {
@@ -39,7 +39,7 @@ function Projects (props) {
     
     const projectsList = []
     
-    if (projects.projects.length !== 0){
+    if (projects.projects.length !== 0){ //initially this length will be 0, but after the useEffect runs projects will be populated into a project entry here
         for (let i=0; i<projects.projects.length; i++){
             projectsList.push(<ProjectEntry repo={projects.projects[i]} username={location.state.username}/>)
         }
