@@ -79,7 +79,7 @@ function Login () {
     
               if (tokenBody.access_token) {
                 localStorage.setItem('accessToken', tokenBody.access_token);
-                setRender(!render);
+             
               }
               res.json(data);
             }
