@@ -112,6 +112,10 @@
     padding: 2px;
     margin-top: 2px;
 }
+.chartContainer{
+    height: 200px;
+    width: 100%;
+}
 a:link { text-decoration: none; }
 a:visited { text-decoration: none; }
 a:hover { text-decoration: underline; }
