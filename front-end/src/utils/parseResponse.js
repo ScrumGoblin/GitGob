@@ -1,7 +1,5 @@
 export function responseParser (responseArray){
     const output = [];
-    console.log(responseArray.length)
-    console.log(Object.keys(responseArray[0]))
     for (let i=0; i<responseArray.length; i++){
         const objToAdd = {};
         objToAdd.puller = responseArray[i]["user"]["login"]
@@ -9,6 +7,9 @@ export function responseParser (responseArray){
         objToAdd.closed_at = responseArray[i]["closed_at"]
         objToAdd.comment = responseArray[i]["body"]
         objToAdd.title = responseArray[i]["title"]
+        objToAdd.state = responseArray[i]["state"]
+        objToAdd.url = responseArray[i]["html_url"]
+        objToAdd.made_by = responseArray[i]["user"]["login"]
         output.push(objToAdd)
     }
 
@@ -18,6 +19,13 @@ export function responseParser (responseArray){
     return output
 }
 
+export function dateParser (opened) {
+  // "created_at": "2023-01-21T17:41:44Z",
+  let today = new Date()
+  let difference = today.getTime() - Date.parse(opened);
+  let daysApart = Math.ceil(difference / (1000 * 3600 * 24));
+  return daysApart;
+}
 
 export const fakeData = [
     {

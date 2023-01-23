@@ -1,12 +1,21 @@
 import '../App.css';
 import React, { Component, useState, useEffect, useRef, createRef } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { dateParser } from '../utils/parseResponse.js'
 
 function PullReq (props) {
-    console.log(props.data)
-    const { today, openedAt, comment, isOpen, title } = props.data
+    const { puller, created_at, closed_at, comment, title, state, url, made_by } = props.data
+
+    let className;
+
+    // if (state === 'closed') className = 'pullReqBlack';
+    if (dateParser(created_at) > 2) className = 'pullReqRed';
+    else className = 'pullReqBlack'
+
     return (
-        <h5 className = {(today-openedAt > 2 && isOpen === true) ? 'pullReqRed' : 'pullReq'}>{`${title} || opened ${today - openedAt} days ago`}</h5>
+        <div className="pullReqContainer">
+            <a href={url} className = {className}>{`${title} || opened ${dateParser(created_at)} days ago by ${made_by}`}</a>
+        </div>
     )
 }
 
