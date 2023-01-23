@@ -39,7 +39,7 @@ function Login() {
   //directs user to sign in with Github and get us the code for our access token.
   function githubLogin() {
     window.location.href =
-      'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145';
+      'https://github.com/login/oauth/authorize?client_id=80b2e3ee86c7eb7b1145&scope=repo';
   }
   useEffect(() => {
     const queryString = window.location.search; //gets us everything after and including '?' in the url (search will look for href property in particular object it's called on...can select an anchor tag for example and use search on it and it will get us the value of its href)
