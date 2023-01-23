@@ -1,23 +1,29 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "build"),
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'build'),
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "index.html"),
+      template: path.join(__dirname, 'public', 'index.html'),
     }),
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, "build"),
+      directory: path.join(__dirname, 'build'),
     },
     port: 3000,
     historyApiFallback: true,
+    proxy: {
+      '/readCookie': {
+        target: 'http://localhost:3088/',
+        secure: false,
+      },
+    },
   },
   module: {
     // exclude node_modules
@@ -25,15 +31,15 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader"],
+        use: ['babel-loader'],
       },
       {
         test: /\.css$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader"
+          'css-loader',
         ],
       },
       {
@@ -48,6 +54,6 @@ module.exports = {
   },
   // pass all js files through Babel
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ['*', '.js', '.jsx'],
   },
 };
