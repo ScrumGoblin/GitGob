@@ -9,8 +9,9 @@ body {
     height: 100vh;
     align-items: center;
     justify-content: center;
+    align-self: flex-start;
     flex-direction: column;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Nats, sans-serif;
     overflow-y: scroll;
 }
 .addProjectButtonContainer{
@@ -19,23 +20,27 @@ body {
     width: 80%;
 }
 .addProjectButton{
-    background-color: white;
+    width: 6vw;
+    background: #BE845E;
+    color: white;
+    border-radius: 8px;
     border: none;
-    border-radius: 10px;
+    padding: 0px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 6px 0px;
-    padding: 1%;
+    font-family: Nats, sans-serif;
+    
 }
-.addProjectButton:hover{
-    background-color: rgb(241, 241, 241);
+.addProjectButton:focus, .submitButton:focus{
+    background-color: #A37253;
 }
-.addProjectInput{
+/* .addProjectInput{
     background-color: white;
     border: none;
     width: 50%;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 6px 0px;
     padding: 1%;
-}
+} */
 .displayPageContainer{
     display: flex;
     flex-direction: column;
@@ -43,13 +48,14 @@ body {
     height: 100vh;
     align-items: flex-start;
     justify-content: flex-start;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Nats, Helvetica, sans-serif;
 }
 .loginContainer{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    background-color: white;
     height: 50%;
     width: 30%;
     border: none;
@@ -59,8 +65,9 @@ body {
 }
 .addProjectContainer{
     display: flex;
-    height: 80%;
-    width: 80%;
+    align-items: center;
+    background-color: white;
+    width: 30%;
     border: none;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
@@ -68,6 +75,7 @@ body {
 }
 .addProjectRow{
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 10%;
     align-items: center;
@@ -78,18 +86,12 @@ body {
     flex-direction: column;
     height: 100%;
 }
-.addProjectInputContainer{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.addProjectButton{
-    align-self: flex-start;
-}
+
 .projectEntry{
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    background-color: white;
     height: auto;
     width: 80%;
     border: none;
@@ -120,13 +122,15 @@ body {
 
 .submitButton{
     width: 20vw;
-    height: 5vh;
+    height: 3vh;
     background: #BE845E;
+    color: white;
     border-radius: 8px;
     border: none;
+    font-family: Nats, sans-serif;
 }
 
-.inputField{
+.inputField, .addProjectInput{
     width: 20vw;
     height: 5vh;
     border-radius: 0.1rem;
@@ -134,7 +138,7 @@ body {
     margin: 5px 0 5px 0;
 }
 
-.inputField:focus{
+.inputField:focus, .addProjectInput:focus{
     outline-width: 0;
 }
 
@@ -156,7 +160,7 @@ h4{
     align-items: center;
     width: 100%;
     font-family: Nats, sans-serif;
-    font-size: 56px;
+    font-size: 5rem;
     margin-bottom: 10vh;
 }
 a:link { text-decoration: none; }
