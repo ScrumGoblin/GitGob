@@ -27,7 +27,7 @@ app.post('/login', userController.validateUser, (req, res) => {
 })
 
 app.post('/getdata', userController.getProject, (req, res) => {
-  return res.send('It worked').json(res.locals.data);
+  return res.status(200).json(res.locals.data);
 })
 
 app.post('/getprojects', userController.getProjectsList, (req, res) => {

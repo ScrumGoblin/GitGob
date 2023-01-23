@@ -7,6 +7,8 @@ export function responseParser (responseArray){
         objToAdd.closed_at = responseArray[i]["closed_at"]
         objToAdd.comment = responseArray[i]["body"]
         objToAdd.title = responseArray[i]["title"]
+        objToAdd.state = responseArray[i]["state"]
+        objToAdd.url = responseArray[i]["url"]
         output.push(objToAdd)
     }
 
@@ -16,6 +18,14 @@ export function responseParser (responseArray){
     return output
 }
 
+export function dateParser (opened) {
+  // "created_at": "2023-01-21T17:41:44Z",
+  let openCleaned = opened.slice(0, 10)
+  let today = new Date()
+  let difference = today.getTime() - Date.parse(openCleaned);
+  let daysApart = Math.ceil(difference / (1000 * 3600 * 24));
+  return daysApart;
+}
 
 export const fakeData = [
     {

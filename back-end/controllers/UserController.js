@@ -18,13 +18,16 @@ const userController = {
 
 userController.getProject = (req, res, next) => {
     const { username, repo } = req.body;
-    fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`)
+    fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`, {
+        Authorization: `token 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`
+    })
     .then(data => data.json())
     .then(data => {
+        console.log(data)
         res.locals.data = data;
         return next();
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err));
 
 }
 
