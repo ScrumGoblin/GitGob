@@ -8,9 +8,9 @@ function PullReq (props) {
 
     let className;
 
-    if (state === 'closed') className = 'pullReqBlack';
-    else if (dateParser(created_at) > 2) className = 'pullReqRed';
-    else className = 'pullReqYellow'
+    // if (state === 'closed') className = 'pullReqBlack';
+    if (dateParser(created_at) > 2) className = 'pullReqRed';
+    else className = 'pullReqBlack'
 
     return (
         <div className="pullReqContainer">
