@@ -2,21 +2,26 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3088;
+const cors = require('cors')
 
 const userController = require('./controllers/UserController');
 
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cors())
 
-app.use((req, res, next) => {         //Put in for development REMOVE.
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+// app.use((req, res, next) => {         //Put in for development REMOVE.
+//   res.append('Access-Control-Allow-Origin', ['*']);
+//   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.append('Access-Control-Allow-Headers', 'Content-Type');
+//   next();
+// });
 //Serve static files 
 // app.use(express.static(path.resolve(__dirname, '../build')));
+app.get('/getAccessToken', userController.getAccessToken, (req, res) => {
+  res.status(200).json(res.locals.token);
+});
 
 app.post('/create-user', userController.createUser, (req, res) => {
   return res.json({success: res.locals.success});
