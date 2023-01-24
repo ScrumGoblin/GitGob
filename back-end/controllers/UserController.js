@@ -2,7 +2,8 @@ const User = require('../models/UserModel');
 const client_id = '80b2e3ee86c7eb7b1145';
 const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
 const redirectURI = 'http://localhost:3000/';
-
+//lines 2-4 are REQUIRED variables for our oauth request to github.
+//ensure that you set your redirectURI on your organization's github oauth app to localhost:3000 just like we did.
 const userController = {
   createUser(req, res, next) {
     const { username, password } = req.body;
@@ -17,6 +18,8 @@ const userController = {
     });
   },
 };
+
+//.createUser is near the bottom of the page. sorry about that. remember that createUser is specifically for creating a new user in our db. so shouldn't necessarily do this every time a user has to reauthenticate with github, because the token expires after 8 hours but the user may already exist in db. so ya may want to play around with all that logic
 
 userController.getAccessToken = async (req, res, next) => {
   try {
