@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "client": "webpack serve --mode development",
+    "start": "concurrently \"nodemon ../back-end/server\" \"webpack serve --mode development\""
   },
   "keywords": [],
   "author": "",

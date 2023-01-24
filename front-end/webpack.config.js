@@ -18,6 +18,12 @@ module.exports = {
     },
     port: 3000,
     historyApiFallback: true,
+    proxy: {
+      '/': {
+        target: 'http://localhost:3088/',
+        secure: false,
+      },
+    },
   },
   module: {
     // exclude node_modules
