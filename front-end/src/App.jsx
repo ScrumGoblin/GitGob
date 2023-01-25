@@ -15,32 +15,31 @@ const PrivateRoutes = (props) => {
 export default function App() {
 
     const [sessionCookie, setSessionCookie] = useState(null);
+    const [isLoading, setLoading] = useState(true)
   
     useEffect(() => {
-      fetch('/api/cookie', {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json' 
-        },
-        credentials: 'include'
-      })
-        .then(response => {
-            console.log(response);
-            response.json();
-        })
-        .then(data => {
-            console.log(data)
-        })
-    }, []);
+      // Check for the existence of the session cookie
+      const cookie = document.cookie.split(';').find(c => c.startsWith('session='));
+      if (cookie) {
+        setSessionCookie(cookie.split('=')[1]);
+      }
+      setLoading(false)
+
+      
+    }, [sessionCookie, isLoading]);
 
     return (
+        <>
+            {isLoading ? <div>Loading...</div> :
             <Routes>
                 <Route element = {<PrivateRoutes cookie = {sessionCookie}/>}>
-                    <Route index element={<Projects />} />
+                    <Route index element={<Projects  />} />
                     <Route path="/add-project" element={<AddProject />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
             </Routes>
+            }
+        </>
     );
 
     // return (

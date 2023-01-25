@@ -77,10 +77,10 @@ userController.storeUser = (req, res, next) => {
     log: 'user does not exist with github',
     message: {err: 'error at app.get .github/callback'}
   })
-  User.findOne({ username: res.locals.userData.id })
+  User.find({ username: res.locals.userData.login })
     .then(data => {
       if (!data.username) {
-        User.create({ username: res.locals.userData.id, token: res.locals.token })
+        User.create({ username: res.locals.userData.login, token: res.locals.token })
           .then(data => {
             res.locals.user = data._id
             return next();
@@ -93,7 +93,7 @@ userController.storeUser = (req, res, next) => {
           })
       }
       else if (res.locals.token !== data.token) {
-        User.findOneAndUpdate({ username: res.locals.userData.id }, { token: res.locals.token })
+        User.findOneAndUpdate({ username: res.locals.userData.login }, { token: res.locals.token })
           .then(data => {
             res.locals.user = data._id
             return next();

@@ -50,7 +50,7 @@ app.post('/addproject', userController.addProject, (req, res) => {
 
 //callback for return token from github after success login
 app.get('/github/callback', userController.getAccessToken, userController.getGitHubUser, userController.storeUser, (req, res) => {
-  res.cookie('session', res.locals.user, {httpOnly: true})
+  res.cookie('session', res.locals.user)
   res.status(200).redirect('http://localhost:3000/')
 })
 
@@ -58,12 +58,6 @@ app.get('/github/callback', userController.getAccessToken, userController.getGit
 app.get('/github', (req, res) => {
   const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GH_ID}&redirect_uri=http://localhost:3088/github/callback`
   res.redirect(url)
-})
-
-app.post('/api/cookie', (req, res) => {
-  const cookie = req.cookies
-  console.log(cookie);
-  res.status(200).json(cookie)
 })
 
 //Global error handler
