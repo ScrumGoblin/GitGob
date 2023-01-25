@@ -18,39 +18,96 @@ const userController = {
         })
     }
 }; 
-
+/*-----------------------------------------------------------------------------
+-------------------------------------------------------------------------------*/
+//OAuth
+//get access token helper function
 userController.getAccessToken = async (req, res, next) => {
   try {
-    const params =
-      '?client_id=' +
-      client_id +
-      '&client_secret=' +
-      client_secret +
-      '&code=' +
-      req.query.code +
-      '&redirect_uri=' +
-      redirectURI;
-
-    const token = await fetch(
-      'https://github.com/login/oauth/access_token' + params,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
+    const { code } = req.query
+    const body = {
+      client_id: process.env.GH_ID,
+      client_secret: process.env.SECRET,
+      code
+    }
+    console.log(body)
+    let response = await fetch('https://github.com/login/oauth/access_token', {
+      method:'POST',
+      headers: {
+        Accept: "application/json"
       },
-    );
-
-    const parsedToken = await token.json();
-    res.locals.token = parsedToken;
-    return next();
-  } catch (e) {
+      body: JSON.stringify(body)
+    })
+    console.log(response)
+    const data = await response.json()
+    console.log('data', data)
+    // const params = new URLSearchParams(data)
+    // res.locals.token = params.get('access_token')
+    // return next();
+  }
+  catch (err) {
     return next({
       log: 'Error in getAccessToken',
-      message: { err: e },
+      message: { err: err },
     });
   }
-};
+}
+
+//grab github user
+userController.getGitHubUser = async (req, res, next) => {
+  try {
+    const request = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `bearer ${res.locals.token}`
+      }
+    })
+    const data = await request.json()
+    res.locals.userData = data
+    return next();
+  }
+  catch (err) {
+    return next({
+      log: 'Error in getGitHubUser',
+      message: { err: err },
+    });
+  }
+}
+
+/*-----------------------------------------------------------------------------
+-------------------------------------------------------------------------------*/
+
+// userController.getAccessToken = async (req, res, next) => {
+//   try {
+//     const params =
+//       '?client_id=' +
+//       client_id +
+//       '&client_secret=' +
+//       client_secret +
+//       '&code=' +
+//       req.query.code +
+//       '&redirect_uri=' +
+//       redirectURI;
+
+//     const token = await fetch(
+//       'https://github.com/login/oauth/access_token' + params,
+//       {
+//         method: 'POST',
+//         headers: {
+//           Accept: 'application/json',
+//         },
+//       },
+//     );
+
+//     const parsedToken = await token.json();
+//     res.locals.token = parsedToken;
+//     return next();
+//   } catch (e) {
+//     return next({
+//       log: 'Error in getAccessToken',
+//       message: { err: e },
+//     });
+//   }
+// };
 
 userController.getProject = (req, res, next) => {
     const { username, repo } = req.body;
@@ -105,7 +162,8 @@ userController.validateUser = (req, res, next) => {
     const {username} = req.body;
     User.find({username: username})
         .then((data) => {
-            if (data.length === 1) res.locals.loggedIn = true;
+            console.log(data)
+            if (data.length === 1) res.locals.loggedIn = true; //NEED TO EDIT THIS STATEMENT
             return next();
         })
         .catch(err => next(err));

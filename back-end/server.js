@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = 3088;
 const cors = require('cors')
+const cookieSession = require('cookie-session')
 
 const userController = require('./controllers/UserController');
 
@@ -44,6 +45,46 @@ app.post('/addproject', userController.addProject, (req, res) => {
   return res.json({success: true});
 })
 
+//OAuth implementation
+
+//callback for return token from github after success login
+app.get('/github/callback', userController.getAccessToken, userController.getGitHubUser, (req, res) => {
+  if(res.locals.userData) {
+    req.session.githubId = res.locals.userData.id
+    req.session.token = res.locals.token
+    res.status(200).json('success')
+  }
+  else {
+    return next({
+      log: 'user does not exist with github',
+      message: {err: 'error at app.get .github/callback'}
+    })
+  }
+})
+
+//redirects user to Github sign in page
+app.get('/github', (req, res) => {
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GH_ID}&redirect_uri=http://localhost:3088/github/callback`
+  res.redirect(url)
+})
+
+//get access token helper function
+// async function getAccessToken (code) {
+//   let response = await fetch('https://github.com/login/oauth/access_token', {
+//     method:'POST',
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({
+//       client_id,
+//       client_secret,
+//       code
+//     })
+//   })
+//   const data = await response.json()
+//   const params = new URLSearchParams(data)
+//   return params.get('access_token')
+// }
 
 //Global error handler
 app.use((err, req, res, next) => {
