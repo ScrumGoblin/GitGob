@@ -1,5 +1,5 @@
-const mongoose = require('mongoose'); 
-const MONGO_URI = 'mongodb://localhost:27017/git';
+const mongoose = require('mongoose');
+const MONGO_URI = '';
 
 
 mongoose.connect(MONGO_URI)
