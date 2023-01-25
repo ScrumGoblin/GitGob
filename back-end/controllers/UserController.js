@@ -30,20 +30,18 @@ userController.getAccessToken = async (req, res, next) => {
       client_secret: process.env.SECRET,
       code
     }
-    console.log(body)
     let response = await fetch('https://github.com/login/oauth/access_token', {
       method:'POST',
       headers: {
-        Accept: "application/json"
+        Accept: "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body)
     })
-    console.log(response)
     const data = await response.json()
-    console.log('data', data)
-    // const params = new URLSearchParams(data)
-    // res.locals.token = params.get('access_token')
-    // return next();
+    const params = new URLSearchParams(data)
+    res.locals.token = params.get('access_token')
+    return next();
   }
   catch (err) {
     return next({
@@ -71,6 +69,53 @@ userController.getGitHubUser = async (req, res, next) => {
       message: { err: err },
     });
   }
+}
+
+//stores user auth in database or update user token in database
+userController.storeUser = (req, res, next) => {
+  if(!res.locals.userData) return next({
+    log: 'user does not exist with github',
+    message: {err: 'error at app.get .github/callback'}
+  })
+  User.findOne({ username: res.locals.userData.id })
+    .then(data => {
+      if (!data.username) {
+        User.create({ username: res.locals.userData.id, token: res.locals.token })
+          .then(data => {
+            res.locals.user = data._id
+            return next();
+          })
+          .catch(error => {
+            return next({
+              log: 'storeUser - Create: Error with storing new user in database',
+              message: {err: error}
+            })
+          })
+      }
+      else if (res.locals.token !== data.token) {
+        User.findOneAndUpdate({ username: res.locals.userData.id }, { token: res.locals.token })
+          .then(data => {
+            res.locals.user = data._id
+            return next();
+          })
+          .catch(error => {
+            return next({
+              log: 'storeUser - update: Error with updating token for user in database',
+              message: {err: error}
+            })
+          })
+      }
+      else {
+        res.locals.user = data._id
+        return next();
+      }
+    })
+    .catch(error => {
+      return next({
+        log: 'storeUser - Find: Error with finding user in database',
+        message: {err: error}
+      });
+    })
 }
 
 /*-----------------------------------------------------------------------------

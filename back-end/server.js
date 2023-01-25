@@ -3,13 +3,14 @@ const express = require('express');
 const app = express();
 const PORT = 3088;
 const cors = require('cors')
-const cookieSession = require('cookie-session')
+const cookieParser = require('cookie-parser')
 
 const userController = require('./controllers/UserController');
 
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cookieParser())
 app.use(cors())
 
 // app.use((req, res, next) => {         //Put in for development REMOVE.
@@ -48,18 +49,9 @@ app.post('/addproject', userController.addProject, (req, res) => {
 //OAuth implementation
 
 //callback for return token from github after success login
-app.get('/github/callback', userController.getAccessToken, userController.getGitHubUser, (req, res) => {
-  if(res.locals.userData) {
-    req.session.githubId = res.locals.userData.id
-    req.session.token = res.locals.token
-    res.status(200).json('success')
-  }
-  else {
-    return next({
-      log: 'user does not exist with github',
-      message: {err: 'error at app.get .github/callback'}
-    })
-  }
+app.get('/github/callback', userController.getAccessToken, userController.getGitHubUser, userController.storeUser, (req, res) => {
+  res.cookie('session', res.locals.user, {httpOnly: true})
+  res.status(200).redirect('http://localhost:3000/')
 })
 
 //redirects user to Github sign in page
@@ -68,23 +60,11 @@ app.get('/github', (req, res) => {
   res.redirect(url)
 })
 
-//get access token helper function
-// async function getAccessToken (code) {
-//   let response = await fetch('https://github.com/login/oauth/access_token', {
-//     method:'POST',
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({
-//       client_id,
-//       client_secret,
-//       code
-//     })
-//   })
-//   const data = await response.json()
-//   const params = new URLSearchParams(data)
-//   return params.get('access_token')
-// }
+app.post('/api/cookie', (req, res) => {
+  const cookie = req.cookies
+  console.log(cookie);
+  res.status(200).json(cookie)
+})
 
 //Global error handler
 app.use((err, req, res, next) => {
