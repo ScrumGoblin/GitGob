@@ -1,3 +1,4 @@
+require('dotenv').config()
 const User = require('../models/UserModel')
 const client_id = '80b2e3ee86c7eb7b1145';
 const client_secret = 'ce3830641f6f3a352a28108ac94b620269a433e0';
@@ -55,7 +56,7 @@ userController.getProject = (req, res, next) => {
     const { username, repo } = req.body;
     fetch(`https://api.github.com/repos/${username}/${repo}/pulls?state=all`, {
         headers: {
-            'Authorization': `token <TOKEN>`
+            'Authorization': `token ${process.env.TOKEN}`
           }
     })
     .then(data => data.json())
