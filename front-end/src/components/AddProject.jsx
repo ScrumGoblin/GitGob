@@ -14,7 +14,7 @@ function AddProject () {
     let navigate = useNavigate();
 
     const routeChange = () =>{ 
-        let path = `/projects`; 
+        let path = `/`; 
         navigate(path, {state: {username: location.state.username}});
       }
 

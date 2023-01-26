@@ -6,6 +6,7 @@ import { responseParser, fakeData } from '../utils/parseResponse';
 
 function Projects (props) {
 
+    console.log(props.username)
     //fetch users project info from the database/github
     const [projects, setProjects] = useState({projects: []})
 
@@ -34,7 +35,7 @@ function Projects (props) {
     const routeChange = () =>{ 
         let path = `/add-project`; 
         navigate(path, {state: {username: props.username}});
-      }
+    }
     const dataParsed = responseParser(fakeData);
     
     const projectsList = []

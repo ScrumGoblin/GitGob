@@ -23,10 +23,19 @@ export default function App() {
       const cookie = document.cookie.split(';').find(c => c.startsWith('session='));
       if (cookie) {
         setSessionCookie(cookie.split('=')[1])
-        validateCookie().then(data => { setUsername(data.name) })
-            .then(() => {
-                setLoading(false)
-            })
+        validateCookie().then(data => { 
+            if (data.name === "failed") {
+                document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                setSessionCookie(null)
+            }
+            else {
+                setUsername(data.name) 
+            }
+        })
+            .then(() => { setLoading(false) })
+      }
+      else {
+        setLoading(false)
       }
     }, [sessionCookie, isLoading]);
 

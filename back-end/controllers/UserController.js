@@ -77,9 +77,9 @@ userController.storeUser = (req, res, next) => {
     log: 'user does not exist with github',
     message: {err: 'error at app.get .github/callback'}
   })
-  User.findOne({ username: res.locals.userData.login })
+  User.find({ username: res.locals.userData.login })
     .then(data => {
-      if (!data.username) {
+      if (!data.length) {
         User.create({ username: res.locals.userData.login, token: res.locals.token })
           .then(data => {
             res.locals.user = data._id
@@ -92,7 +92,7 @@ userController.storeUser = (req, res, next) => {
             })
           })
       }
-      else if (res.locals.token !== data.token) {
+      else if (res.locals.token !== data[0].token) {
         User.findOneAndUpdate({ username: res.locals.userData.login }, { token: res.locals.token })
           .then(data => {
             res.locals.user = data._id
@@ -121,9 +121,13 @@ userController.storeUser = (req, res, next) => {
 //grabs user data from db based on cookie id
 userController.getUser = (req, res, next) => {
   const { session } = req.cookies
-  User.findOne({ _id: session })
+  User.find({ _id: session })
     .then(data => {
-      res.locals.username = { name: data.username }
+      if (!data.length) {
+        res.locals.username = { name: "failed"}
+        return next();
+      }
+      res.locals.username = { name: data[0].username }
       return next();
     })
     .catch(error => {
@@ -179,7 +183,7 @@ userController.getProject = (req, res, next) => {
     })
     .then(data => data.json())
     .then(data => {
-        console.log(data)
+        // console.log(data)
         res.locals.data = data;
         return next();
     })
@@ -192,14 +196,14 @@ userController.getProjectsList = (req, res, next) => {
     User.findOne({username: username}) //can get two not sure why
         .then((data) => {
             res.locals.projects = data.projects;
-            console.log(res.locals.projects)
+            // console.log(res.locals.projects)
             next();
         })
         .catch(err => console.log(err));
 };
 
 userController.addProject = (req, res, next) => {
-    console.log('got here')
+    // console.log('got here')
     const { username, repo } = req.body;
     User.updateOne(
         { username: username },
@@ -208,22 +212,22 @@ userController.addProject = (req, res, next) => {
     .catch(err => console.log(err))
 }
 
-userController.createUser = (req,res,next) => {
-    const {username} = req.body;
-    User.create({username: username})
-    .then((data) => {
-        res.locals.success = true;
-        return next();
-    })
-    .catch(err => {
-        next(err)});
-}
+// userController.createUser = (req,res,next) => {
+//     const {username} = req.body;
+//     User.create({username: username})
+//     .then((data) => {
+//         res.locals.success = true;
+//         return next();
+//     })
+//     .catch(err => {
+//         next(err)});
+// }
 
 userController.validateUser = (req, res, next) => {
     const {username} = req.body;
     User.find({username: username})
         .then((data) => {
-            console.log(data)
+            // console.log(data)
             if (data.length === 1) res.locals.loggedIn = true; //NEED TO EDIT THIS STATEMENT
             return next();
         })
