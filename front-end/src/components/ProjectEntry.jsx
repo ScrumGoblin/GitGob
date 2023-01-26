@@ -6,8 +6,6 @@ import PullReq from './Pullreq.jsx'
 
 function ProjectEntry (props) {
 
-    
-
     const [userData, setData] = useState({data: []});
 
     useEffect(() => {
@@ -27,7 +25,7 @@ function ProjectEntry (props) {
         newData.data = data
         setData(newData)
     })
-        }, []);
+    }, []);
 
     const reqs = [];
     
@@ -37,7 +35,7 @@ function ProjectEntry (props) {
         if (dateParser(userData.data[i].created_at) <= 7){
             if (pullsinLast7 === 'fetching') pullsinLast7 = 1;
             else pullsinLast7 += 1;
-        }else{
+        } else {
             if (pullsinLast7 === 'fetching') pullsinLast7 = 0;
         }
     }
@@ -68,11 +66,10 @@ function ProjectEntry (props) {
         <div className="projectEntry">
             <h1>{props.repo}</h1>
             <div className="chartContainer">
-                {chart}
+            {chart}
             </div>
             <h2>{pullsinLast7} pulls in the last week</h2>
             {reqs}
-            
         </div>
     )
 }

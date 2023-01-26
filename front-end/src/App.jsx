@@ -32,7 +32,7 @@ export default function App() {
                 setUsername(data.name) 
             }
         })
-            .then(() => { setLoading(false) })
+        .then(() => { setLoading(false) })
       }
       else {
         setLoading(false)

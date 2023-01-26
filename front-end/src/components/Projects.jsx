@@ -42,7 +42,9 @@ function Projects (props) {
     
     if (projects.projects.length !== 0){
         for (let i=0; i<projects.projects.length; i++){
-            projectsList.push(<ProjectEntry repo={projects.projects[i]} username={props.username}/>)
+          console.log( projects.projects[i])
+          for (let key in projects.projects[i])
+            projectsList.push(<ProjectEntry repo={projects.projects[i][key]} username={key}/>)
         }
     }
     
