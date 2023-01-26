@@ -191,24 +191,29 @@ userController.getProject = (req, res, next) => {
 
 }
 
+// this should work
 userController.getProjectsList = (req, res, next) => {
     const { username } = req.body;
     User.findOne({username: username}) //can get two not sure why
         .then((data) => {
             res.locals.projects = data.projects;
-            // console.log(res.locals.projects)
+            
+            console.log(res.locals.projects)
             next();
         })
         .catch(err => console.log(err));
 };
 
 userController.addProject = (req, res, next) => {
-    // console.log('got here')
-    const { username, repo } = req.body;
+    const { username, repo , owner} = req.body;
+
     User.updateOne(
         { username: username },
-        { $addToSet: { projects: repo}})
-    .then((data) => next())
+        { $addToSet: { projects: {[owner]: repo} }})
+    .then((data) => {
+      console.log(data)
+      next()
+    })
     .catch(err => console.log(err))
 }
 

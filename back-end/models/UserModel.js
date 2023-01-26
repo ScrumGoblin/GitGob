@@ -9,6 +9,13 @@ mongoose.connect(MONGO_URI)
   console.log(err);
 })
 
+// const subSchema = new mongoose.Schema({
+//   owner: {
+//     type: [String],
+//     default: {},
+//   }
+// })
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -16,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   //Project is an array containing the name of all the repos
   projects: {
-    type: [String],
+    type: [Object],
     default: [],
     // required: true
   },
@@ -25,5 +32,7 @@ const userSchema = new mongoose.Schema({
     require: true
   }
 }); 
+
+
 const User = mongoose.model('user', userSchema)
 module.exports = User;
