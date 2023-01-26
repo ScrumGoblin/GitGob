@@ -60,6 +60,11 @@ app.get('/github', (req, res) => {
   res.redirect(url)
 })
 
+//validate cookie
+app.post('/cookie/login', userController.getUser, (req, res) => {
+  res.status(200).json(res.locals.username)
+})
+
 //Global error handler
 app.use((err, req, res, next) => {
     const defaultErr = {

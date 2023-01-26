@@ -15,25 +15,39 @@ const PrivateRoutes = (props) => {
 export default function App() {
 
     const [sessionCookie, setSessionCookie] = useState(null);
+    const [username, setUsername] = useState('')
     const [isLoading, setLoading] = useState(true)
   
     useEffect(() => {
       // Check for the existence of the session cookie
       const cookie = document.cookie.split(';').find(c => c.startsWith('session='));
       if (cookie) {
-        setSessionCookie(cookie.split('=')[1]);
+        setSessionCookie(cookie.split('=')[1])
+        validateCookie().then(data => { setUsername(data.name) })
+            .then(() => {
+                setLoading(false)
+            })
       }
-      setLoading(false)
-
-      
     }, [sessionCookie, isLoading]);
+
+    const validateCookie = async () => {
+        let response = await fetch('/cookie/login', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            credentials: 'include'  
+        })
+        let data = await response.json()
+        return data
+    }
 
     return (
         <>
             {isLoading ? <div>Loading...</div> :
             <Routes>
                 <Route element = {<PrivateRoutes cookie = {sessionCookie}/>}>
-                    <Route index element={<Projects  />} />
+                    <Route index element={<Projects  username={username}/>} />
                     <Route path="/add-project" element={<AddProject />} />
                 </Route>
                 <Route path="/login" element={<Login />} />

@@ -18,7 +18,7 @@ function Projects (props) {
         'Accept': '*/*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: location.state.username })
+      body: JSON.stringify({ username: props.username })
     })
     .then((data)=> data.json())
     .then((data) => {
@@ -33,7 +33,7 @@ function Projects (props) {
     let navigate = useNavigate();
     const routeChange = () =>{ 
         let path = `/add-project`; 
-        navigate(path, {state: {username: location.state.username}});
+        navigate(path, {state: {username: props.username}});
       }
     const dataParsed = responseParser(fakeData);
     
@@ -41,7 +41,7 @@ function Projects (props) {
     
     if (projects.projects.length !== 0){
         for (let i=0; i<projects.projects.length; i++){
-            projectsList.push(<ProjectEntry repo={projects.projects[i]} username={location.state.username}/>)
+            projectsList.push(<ProjectEntry repo={projects.projects[i]} username={props.username}/>)
         }
     }
     

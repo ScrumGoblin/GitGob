@@ -77,7 +77,7 @@ userController.storeUser = (req, res, next) => {
     log: 'user does not exist with github',
     message: {err: 'error at app.get .github/callback'}
   })
-  User.find({ username: res.locals.userData.login })
+  User.findOne({ username: res.locals.userData.login })
     .then(data => {
       if (!data.username) {
         User.create({ username: res.locals.userData.login, token: res.locals.token })
@@ -113,6 +113,22 @@ userController.storeUser = (req, res, next) => {
     .catch(error => {
       return next({
         log: 'storeUser - Find: Error with finding user in database',
+        message: {err: error}
+      });
+    })
+}
+
+//grabs user data from db based on cookie id
+userController.getUser = (req, res, next) => {
+  const { session } = req.cookies
+  User.findOne({ _id: session })
+    .then(data => {
+      res.locals.username = { name: data.username }
+      return next();
+    })
+    .catch(error => {
+      return next({
+        log: 'getUser - Find: Error with finding user in database',
         message: {err: error}
       });
     })
