@@ -1,1 +1,10 @@
-{}
+{
+  "scripts": {
+    "build": "webpack --mode production",
+    "server": "nodemon back-end/server",
+    "start": "/front-end/ webpack --mode production"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

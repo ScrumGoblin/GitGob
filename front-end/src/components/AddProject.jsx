@@ -7,6 +7,7 @@ function AddProject () {
 
     const [project, setProject] = useState({
         name: '',
+        owner: ''
     });
 
     const location = useLocation();
@@ -14,7 +15,7 @@ function AddProject () {
     let navigate = useNavigate();
 
     const routeChange = () =>{ 
-        let path = `/projects`; 
+        let path = `/`; 
         navigate(path, {state: {username: location.state.username}});
       }
 
@@ -24,6 +25,12 @@ function AddProject () {
         setProject(newState)
     }
 
+    function updateOwner(name){
+      let newState = Object.assign({}, project);
+      newState.owner = name;
+      setProject(newState)
+  }
+
     function submitProject(name){
         fetch('http://localhost:3088/addproject', {
         method: 'POST',
@@ -31,7 +38,7 @@ function AddProject () {
             'Accept': '*/*',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: location.state.username, repo: project.name })
+        body: JSON.stringify({ username: location.state.username, owner: project.owner, repo: project.name })
         })
         .then((data) => data.json())
         .then((data) => {
@@ -48,8 +55,9 @@ function AddProject () {
         <div className='addProjectContainer'>
             <div class="addProjectRow">
                 <label>Project name : </label>
+                <input className="addProjectInput" type="text" placeholder='Repository Owner' onChange={(e) => updateOwner(e.target.value)}/>
                 <input className="addProjectInput" type="text" placeholder='Repository Name' onChange={(e) => updateName(e.target.value)}/>
-                <button className="addProjectButton" onClick={()=>submitProject(project.name)}>Add Project</button>
+                <button className="addProjectButton" onClick={submitProject}>Add Project</button>
             </div>
         </div>
     </div>

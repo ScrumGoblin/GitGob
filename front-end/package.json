@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "client": "webpack serve --mode development",
+    "start": "concurrently \"nodemon ../back-end/server\" \"webpack serve --mode development\""
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.2",
+    "concurrently": "^7.6.0",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",

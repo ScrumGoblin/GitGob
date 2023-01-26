@@ -1,6 +1,5 @@
-const mongoose = require('mongoose'); 
-const MONGO_URI = 'mongodb+srv://nhcathcart:38APgWaUIeEN1BLj@cluster0.u2zfqet.mongodb.net/?retryWrites=true&w=majority';
-
+const mongoose = require('mongoose');
+const MONGO_URI = process.env.DB_STRING
 
 mongoose.connect(MONGO_URI)
 .then((data) => {
@@ -10,6 +9,13 @@ mongoose.connect(MONGO_URI)
   console.log(err);
 })
 
+// const subSchema = new mongoose.Schema({
+//   owner: {
+//     type: [String],
+//     default: {},
+//   }
+// })
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -17,10 +23,16 @@ const userSchema = new mongoose.Schema({
   },
   //Project is an array containing the name of all the repos
   projects: {
-    type: [String],
+    type: [Object],
     default: [],
     // required: true
+  },
+  token: {
+    type: String,
+    require: true
   }
 }); 
+
+
 const User = mongoose.model('user', userSchema)
 module.exports = User;

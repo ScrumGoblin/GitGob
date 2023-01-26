@@ -3,12 +3,14 @@ const express = require('express');
 const app = express();
 const PORT = 3088;
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 const userController = require('./controllers/UserController');
 
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cookieParser())
 app.use(cors())
 
 // app.use((req, res, next) => {         //Put in for development REMOVE.
@@ -44,6 +46,24 @@ app.post('/addproject', userController.addProject, (req, res) => {
   return res.json({success: true});
 })
 
+//OAuth implementation
+
+//callback for return token from github after success login
+app.get('/github/callback', userController.getAccessToken, userController.getGitHubUser, userController.storeUser, (req, res) => {
+  res.cookie('session', res.locals.user)
+  res.status(200).redirect('http://localhost:3000/')
+})
+
+//redirects user to Github sign in page
+app.get('/github', (req, res) => {
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GH_ID}&redirect_uri=http://localhost:3088/github/callback`
+  res.redirect(url)
+})
+
+//validate cookie
+app.post('/cookie/login', userController.getUser, (req, res) => {
+  res.status(200).json(res.locals.username)
+})
 
 //Global error handler
 app.use((err, req, res, next) => {
