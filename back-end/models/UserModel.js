@@ -1,6 +1,5 @@
-const mongoose = require('mongoose'); 
-const MONGO_URI = 'mongodb+srv://nhcathcart:38APgWaUIeEN1BLj@cluster0.u2zfqet.mongodb.net/?retryWrites=true&w=majority';
-
+const mongoose = require('mongoose');
+const MONGO_URI = process.env.DB_STRING
 
 mongoose.connect(MONGO_URI)
 .then((data) => {
@@ -20,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: [],
     // required: true
+  },
+  token: {
+    type: String,
+    require: true
   }
 }); 
 const User = mongoose.model('user', userSchema)
